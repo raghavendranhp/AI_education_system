@@ -1,0 +1,28 @@
+# Environments
+edu_env/
+env/
+venv/
+.env
+
+# Models and Artifacts
+*.pkl
+models/
+!models/metadata/
+*.h5
+*.model
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Data
+data/

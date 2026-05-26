@@ -1,0 +1,28 @@
+# core jupyter environment
+jupyter
+notebook
+ipykernel
+
+# data manipulation and analysis
+pandas
+numpy
+matplotlib
+seaborn
+plotly
+
+# machine learning models and preprocessing
+scikit-learn
+xgboost
+lightgbm
+imbalanced-learn
+joblib
+
+# frontend application dashboard
+streamlit
+streamlit-option-menu
+
+# generative ai and api orchestration
+groq
+langchain
+langchain-groq
+python-dotenv
