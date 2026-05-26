@@ -54,13 +54,7 @@ edu_env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**2. Generate Native ML Artifacts:**
-Execute the notebooks to natively generate the intermediate datasets and Scikit-Learn/CatBoost pipelines.
-```bash
-jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
-```
-
-**3. Launch the Intelligence Workspace:**
+**2. Launch the Intelligence Workspace:**
 ```bash
 streamlit run app/main.py
 ```
