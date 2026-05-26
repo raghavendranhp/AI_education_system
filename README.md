@@ -2,6 +2,9 @@
 
 An end-to-end Machine Learning ecosystem designed to act as an AI-powered Educational Mentoring Simulator. The platform natively predicts dropout risk, forecasts academic performance, segments learner behavior, and utilizes a large language model (Llama-3.1) to generate explicitly structured intervention strategies.
 
+## demo
+![demo](output.gif)
+
 ## System Architecture
 
 ```mermaid
