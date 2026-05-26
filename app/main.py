@@ -28,7 +28,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- Diagnostics Gate ---
+#Diagnostics Gate
 @st.cache_resource
 def load_and_verify():
     status = run_diagnostics("d:/OFFICE/Tasks/tutoring_system/models")
@@ -40,7 +40,7 @@ if not diag_status['healthy']:
     for e in diag_status['errors']: st.error(f"- {e}")
     st.stop()
 
-# --- Resource Loading ---
+#Resource Loading 
 @st.cache_data
 def load_data():
     df = pd.read_csv("d:/OFFICE/Tasks/tutoring_system/data/processed/master_dataset.csv")
@@ -73,7 +73,7 @@ def load_ml_artifacts():
 df = load_data()
 perf_model, drop_model, recommender = load_ml_artifacts()
 
-# --- Navigation ---
+#Navigation 
 page = option_menu(
     menu_title=None,
     options=["1. Home", "2. Student Intelligence Workspace", "3. Cohort Analytics", "4. AI Tutor Assistant"],
@@ -123,7 +123,7 @@ elif page == "2. Student Intelligence Workspace":
     student_id = st.selectbox("Select Target Student ID", df['id_student'].unique()[:1000])
     base_data = df[df['id_student'] == student_id].iloc[0].to_dict()
     
-    # WHAT-IF ENGINE UI
+    #WHAT-IF ENGINE UI
     st.sidebar.markdown("---")
     st.sidebar.markdown("### 🧪 What-If Simulation")
     st.sidebar.markdown("Modify behaviors to preview risk impacts.")
@@ -132,13 +132,13 @@ elif page == "2. Student Intelligence Workspace":
     sim_score = st.sidebar.slider("Average Score (%)", 0, 100, int(base_data.get('average_score', 0)))
     sim_late = st.sidebar.slider("Late Submissions", 0, 10, int(base_data.get('late_submission_count', 0)))
     
-    # RECALCULATE FEATURES
+    #RECALCULATE FEATURES
     simulated_data = dict(base_data)
     simulated_data['total_clicks'] = sim_clicks
     simulated_data['average_score'] = sim_score
     simulated_data['late_submission_count'] = sim_late
     
-    # Native invocation of exact feature math
+    #Native invocation of exact feature math
     simulated_data = recalculate_features(simulated_data)
     
     col1, col2 = st.columns([1, 2])
@@ -161,7 +161,7 @@ elif page == "2. Student Intelligence Workspace":
             drop_prob = drop_model.predict_proba(inf_df)[0][1]
             perf_pred = perf_model.predict(inf_df)[0]
             
-            # History Tracking Logic
+            #History Tracking Logic
             if len(st.session_state.intervention_history) == 0 or st.session_state.intervention_history[-1]['prob'] != drop_prob:
                 st.session_state.intervention_history.append({'clicks': sim_clicks, 'score': sim_score, 'prob': drop_prob})
                 
@@ -210,7 +210,7 @@ elif page == "2. Student Intelligence Workspace":
         with st.spinner("AI Mentoring Engine processing..."):
             tutor = GroqTutorAssistant()
             if tutor.client:
-                # Structured 7-Section Prompt payload
+                #Structured 7-Section Prompt payload
                 prompt = f"""
                 Analyze this student:
                 1. Profile: {simulated_data.get('educational_segment')}

@@ -17,9 +17,9 @@ class GroqTutorAssistant:
 
         self.model = "llama-3.1-8b-instant"
         self.system_prompt = """You are an expert AI Educational Tutor. 
-Your goal is to guide students, explain learning analytics, and suggest actionable interventions.
-You have access to their risk predictions, engagement scores, and recommendation vectors.
-Be encouraging, professional, and precise. Never make up data; if a metric is low, address it constructively."""
+        Your goal is to guide students, explain learning analytics, and suggest actionable interventions.
+        You have access to their risk predictions, engagement scores, and recommendation vectors.
+        Be encouraging, professional, and precise. Never make up data; if a metric is low, address it constructively."""
 
     def get_response(self, user_message: str, chat_history: list = None, student_context: dict = None) -> str:
         """
@@ -30,19 +30,19 @@ Be encouraging, professional, and precise. Never make up data; if a metric is lo
 
         messages = [{"role": "system", "content": self.system_prompt}]
         
-        # Inject student context into the system prompt if provided
+        #Inject student context into the system prompt if provided
         if student_context:
             context_str = "\n--- CURRENT STUDENT CONTEXT ---\n"
             for k, v in student_context.items():
                 context_str += f"{k}: {v}\n"
             messages[0]["content"] += context_str
 
-        # Add history
+        #Add history
         if chat_history:
             for msg in chat_history:
                 messages.append(msg)
                 
-        # Add current message
+        #Add current message
         messages.append({"role": "user", "content": user_message})
 
         try:

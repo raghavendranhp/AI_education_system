@@ -6,7 +6,7 @@ def run_diagnostics(models_dir='models'):
     """Runs a health check on the ML architecture."""
     status = {'healthy': True, 'errors': []}
     
-    # 1. Check Artifacts
+    #Check Artifacts
     required_files = [
         f'{models_dir}/performance_pipeline.pkl',
         f'{models_dir}/dropout_pipeline.pkl',
@@ -20,7 +20,7 @@ def run_diagnostics(models_dir='models'):
             status['healthy'] = False
             status['errors'].append(f"Missing critical artifact: {f}")
             
-    # 2. Check API
+    #Check API
     from dotenv import load_dotenv
     load_dotenv()
     if not os.getenv('GROQ_API_KEY'):

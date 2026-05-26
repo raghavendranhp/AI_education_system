@@ -20,12 +20,12 @@ class HybridRecommender:
 
     def build_and_save_artifacts(self, student_vle_path: str):
         print("Building Hybrid Recommendation Artifacts...")
-        # To avoid massive memory issues, we sample or group aggressively
+        #To avoid massive memory issues, we sample or group aggressively
         df = pd.read_csv(student_vle_path, usecols=['id_student', 'id_site', 'sum_click'], nrows=1000000)
         
-        # 1. Collaborative Matrix
+        #Collaborative Matrix
         interaction = df.groupby(['id_student', 'id_site'])['sum_click'].sum().reset_index()
-        # Filter sparse interactions to save memory
+        #Filter sparse interactions to save memory
         user_counts = interaction['id_student'].value_counts()
         item_counts = interaction['id_site'].value_counts()
         
@@ -34,10 +34,10 @@ class HybridRecommender:
         
         matrix = interaction.pivot(index='id_student', columns='id_site', values='sum_click').fillna(0)
         
-        # Normalize rows
+        #Normalize rows
         matrix_norm = matrix.div(matrix.sum(axis=1), axis=0).fillna(0)
         
-        # 2. Popularity Scores
+        #Popularity Scores
         popularity = interaction.groupby('id_site')['sum_click'].sum()
         popularity_norm = popularity / popularity.max()
         
@@ -53,12 +53,12 @@ class HybridRecommender:
         if self.interaction_matrix is None or self.popularity_scores is None:
             return [{"error": "Models not loaded."}]
             
-        # Cold start handling
+        #Cold start handling
         if student_id not in self.interaction_matrix.index:
             pop_recs = self.popularity_scores.sort_values(ascending=False).head(top_n)
             return [{"site_id": k, "score": v, "reason": "Popularity Fallback (Cold Start)"} for k, v in pop_recs.items()]
             
-        # Collaborative Similarity
+        #Collaborative Similarity
         student_vec = self.interaction_matrix.loc[[student_id]]
         similarities = cosine_similarity(student_vec, self.interaction_matrix).flatten()
         sim_series = pd.Series(similarities, index=self.interaction_matrix.index)
@@ -66,11 +66,11 @@ class HybridRecommender:
         similar_students = sim_series.sort_values(ascending=False)[1:6].index
         collab_scores = self.interaction_matrix.loc[similar_students].mean()
         
-        # Hybrid Scoring (0.7 Collab + 0.3 Popularity)
+        #Hybrid Scoring (0.7 Collab + 0.3 Popularity)
         combined_scores = pd.DataFrame({'collab': collab_scores, 'popular': self.popularity_scores}).fillna(0)
         combined_scores['hybrid'] = 0.7 * combined_scores['collab'] + 0.3 * combined_scores['popular']
         
-        # Filter already interacted
+        #Filter already interacted
         student_interacted = self.interaction_matrix.loc[student_id]
         combined_scores = combined_scores[student_interacted == 0]
         

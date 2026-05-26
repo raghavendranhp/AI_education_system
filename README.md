@@ -16,7 +16,7 @@ flowchart TD
         D --> E[Notebook 03: Benchmarking & KMeans]
         D --> F[Notebook 04: Hybrid Recommender]
         E --> G[(CatBoost / LightGBM .pkl)]
-        E --> H[{feature_schema.json}]
+        E --> H{feature_schema.json}
         F --> I[(recommender_matrix.pkl)]
     end
 

@@ -10,7 +10,7 @@ import joblib
 def run_tests():
     print("--- INITIATING PLATFORM INTEGRATION TESTS ---")
     
-    #Diagnostics Test
+    #diagnostics Test
     print("\n1. Testing Diagnostics Engine...")
     models_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../models"))
     status = run_diagnostics(models_dir=models_dir)
@@ -20,7 +20,7 @@ def run_tests():
         print(f"[FAIL] Diagnostics failed: {status['errors']}")
         sys.exit(1)
         
-    #Recalculation Math Test
+    #recalculation Math Test
     print("\n2. Testing Feature Recalculation Engine...")
     df = pd.read_csv(os.path.abspath(os.path.join(os.path.dirname(__file__), "../data/processed/master_dataset.csv")))
     dummy_student = df.iloc[0].to_dict()
@@ -34,7 +34,7 @@ def run_tests():
         print("[FAIL] Recalculation math produced unexpected boundaries.")
         sys.exit(1)
         
-    #Artifact Inference Test
+    #artifact Inference Test
     print("\n3. Testing Pickled Inference Pipeline...")
     try:
         model = joblib.load(os.path.join(models_dir, "dropout_pipeline.pkl"))
@@ -53,3 +53,4 @@ def run_tests():
 
 if __name__ == "__main__":
     run_tests()
+    
